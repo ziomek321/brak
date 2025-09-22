@@ -1,0 +1,100 @@
+Widzę, że wkleiłeś konfigurację ClientAppSettings.json (lub podobnego pliku override) używanego w BloxTrap do wymuszania tzw. flags (FFlag, DFFlag, DFInt, FInt itd.) w Robloxie.
+To są wewnętrzne ustawienia klienta Roblox, które normalnie nie są dostępne w menu gry.
+BloxTrap pozwala na ich ręczne ustawienie, co może zmienić działanie grafiki, sieci i wydajności.
+
+Rozbijmy Twoją listę:
+
+
+---
+
+🔹 Grafika i FPS
+
+FFlagDebugGraphicsPreferD3D11: "True" → wymusza DirectX 11 zamiast np. D3D12 / Vulkan.
+
+DFFlagTextureQualityOverrideEnabled: "True"+DFIntTextureQualityOverride: "2"` → ręczne ustawienie jakości tekstur (0 = niska, 1 = średnia, 2 = wysoka).
+
+**FFlagDebugSkyGray: "True"` → zamienia niebo na szary (debugowe, raczej niepotrzebne w normalnej grze).
+
+DFIntTaskSchedulerTargetFps: "1500" → ustawia teoretyczny cel FPS nawet do 1500 (nie oznacza, że tyle osiągniesz).
+
+FFlagTaskSchedulerLimitTargetFpsTo2402: "False"` → wyłącza limit do ~240 FPS, czyli klient może próbować wyświetlać jeszcze więcej FPS.
+
+
+
+---
+
+🔹 Sieć i ping
+
+DFIntConnectionMTUSize: "900" → maksymalna wielkość pakietu (MTU), mniejsza wartość może zmniejszyć opóźnienia, ale zwiększa liczbę pakietów.
+
+FIntRakNetResendBufferArrayLength: "128" → jak duży bufor ponownych wysyłań pakietów trzyma klient.
+
+DFIntRakNetResendRttMultiple: "1" → kontroluje, jak szybko pakiety są ponownie wysyłane po stracie.
+
+DFIntRaknetBandwidthPingSendEveryXSeconds: "1" → klient wysyła pakiet ping co 1 sek.
+
+DFIntOptimizePingThreshold: "50" → próg opóźnienia (ms), przy którym uruchamiane są mechanizmy optymalizacji.
+
+DFIntPlayerNetworkUpdateQueueSize: "20" → kolejka aktualizacji danych gracza w sieci.
+
+DFIntPlayerNetworkUpdateRate: "60" → częstotliwość aktualizacji gracza w sieci (Hz).
+
+DFIntNetworkPrediction: "120" → ile „przewidywań” ruchu klient robi przy braku pakietów (lepsza płynność przy lagach).
+
+DFIntNetworkLatencyTolerance: "1" → tolerancja na opóźnienia (im mniejsza liczba, tym bardziej klient reaguje na lagi).
+
+FFlagOptimizeNetwork / OptimizeNetworkRouting / OptimizeNetworkTransport / OptimizeServerTickRate: "True" → włączają różne eksperymentalne optymalizacje sieciowe i serwerowe.
+
+
+
+---
+
+🔹 Serwer i tick rate
+
+DFIntServerPhysicsUpdateRate: "60"
+
+DFIntServerTickRate: "60"
+→ Wymuszenie serwera (lokalnie symulowanego) na 60 Hz – normalnie Roblox działa bliżej 30 Hz.
+
+
+
+---
+
+🔹 Logi i inne
+
+FLogNetwork: "7" → ustawia bardzo wysoki poziom logowania sieci (raczej do debugowania).
+
+FFlagHandleAltEnterFullscreenManually: "False" → kontrola jak działa skrót Alt+Enter (pełny ekran).
+
+
+
+---
+
+✅ Podsumowanie:
+
+To są eksperymentalne / ukryte ustawienia Roblox, które BloxTrap ładuje do klienta.
+
+Twoja konfiguracja skupia się głównie na:
+
+podnoszeniu jakości grafiki i odblokowaniu FPS,
+
+przyspieszaniu tick rate serwera i aktualizacji graczy,
+
+optymalizacji sieci (niższy ping, szybsze wysyłanie pakietów).
+
+
+
+⚠️ Uwaga:
+
+Nie wszystkie flagi faktycznie działają — Roblox często je ignoruje, jeśli nie są obsługiwane w danej wersji klienta.
+
+Część z nich (zwłaszcza sieciowe) może w praktyce pogorszyć stabilność (np. jeśli serwer nie obsługuje 60 Hz tick rate).
+
+To jest bardziej zabawa w tweakowanie, a nie gwarantowany boost.
+
+
+
+---
+
+Chcesz, żebym zrobił dla Ciebie optymalny config do BloxTrap (np. najlepsze FPS i najniższy ping, ale bez ustawień, które mogą robić problemy)?
+
